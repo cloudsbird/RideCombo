@@ -17,13 +17,12 @@ ActiveRecord::Schema.define(version: 2022_01_12_141210) do
 
   create_table "discounts", force: :cascade do |t|
     t.string "type"
+    t.string "item_code"
     t.integer "min_items"
     t.float "value"
-    t.bigint "item_id"
     t.boolean "status", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["item_id"], name: "index_discounts_on_item_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -34,5 +33,4 @@ ActiveRecord::Schema.define(version: 2022_01_12_141210) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "discounts", "items"
 end

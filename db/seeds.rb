@@ -14,5 +14,5 @@ end
 
 if Discount.first.nil?
   Discount.create(discount_type: 'each_percentage', value: '30', item_code: 'TSHIRT', min_items: '3')
-  Discount.create(discount_type: 'item', value: 1, item_code: 'MUG', min_items: '1')
+  Discount.create(discount_type: 'item', value: 1, item_code: 'MUG', min_items: 1)
 end

@@ -7,7 +7,7 @@ class CreateItemsAndDiscount < ActiveRecord::Migration[7.0]
     end
 
     create_table :discounts do |t|
-      t.string :type, :item_code
+      t.string :discount_type, :item_code
       t.integer :min_items
       t.float :value
       t.boolean :status, default: true

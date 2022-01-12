@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2022_01_12_141210) do
   enable_extension "plpgsql"
 
   create_table "discounts", force: :cascade do |t|
-    t.string "type"
+    t.string "discount_type"
     t.string "item_code"
     t.integer "min_items"
     t.float "value"

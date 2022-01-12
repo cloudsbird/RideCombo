@@ -1,44 +1,46 @@
-class ItemsController < ApiController
-  def index
-    @items = Item.all
-    render json: @items
-  end
-
-  def update
-    @item = Item.find(params[:id])
-    return render json: { error: 'Item not found' }, status: 404 unless @item
-
-    if @item.update(item_params)
-      render json: @item
-    else
-      render json: { error: 'Item not updated' }, status: 422
+module Api::V1
+  class ItemsController < ApiController
+    def index
+      @items = Item.all
+      render json: @items
     end
-  end
 
-  def checkout
-    items = checkout_params[:items]
+    def update
+      @item = Item.find_by(id: params[:id])
+      return render json: { error: 'Item not found' }, status: 404 unless @item
 
-    cart = {}
-
-    items.each do |item|
-      checked_item = Item.find_by(code: item)
-      next if checked_item.nil?
-
-      if cart.key?(checked_item.code)
-        cart[checked_item.code] += 1
+      if @item.update(item_params)
+        render json: @item
       else
-        cart[checked_item.code] = 1
+        render json: { error: 'Item not updated' }, status: 422
       end
     end
-  end
 
-  private
+    def checkout
+      items = checkout_params[:items]
 
-  def checkout_params
-    params.require(:checkout).permit(:items)
-  end
+      cart = {}
 
-  def item_params
-    params.require(:item).permit(:price)
+      items.each do |item|
+        checked_item = Item.find_by(code: item)
+        next if checked_item.nil?
+
+        if cart.key?(checked_item.code)
+          cart[checked_item.code] += 1
+        else
+          cart[checked_item.code] = 1
+        end
+      end
+    end
+
+    private
+
+    def checkout_params
+      params.require(:checkout).permit(:items)
+    end
+
+    def item_params
+      params.require(:item).permit(:id, :price)
+    end
   end
 end

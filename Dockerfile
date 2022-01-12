@@ -16,6 +16,5 @@ COPY . /app
 
 RUN gem install bundler:2.1.4
 RUN bundle install
-RUN bundle exec rake db:migrate db:seed
 
 expose 3000

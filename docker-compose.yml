@@ -1,0 +1,36 @@
+version: '2'
+services:
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - "db_data:/var/lib/postgresql/data"
+
+  web:
+    build:
+      context: .
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_ENV=development
+    volumes:
+      - gem_cache:/gems:cached
+      - bundle_path:/usr/local/bundle:cached
+      - node_modules:/node_modules:cached
+      - .:/app:delegated
+    command: bundle exec rails server -b 0.0.0.0
+
+volumes:
+  db_data:
+  gem_cache:
+  bundle_path:
+  node_modules:
